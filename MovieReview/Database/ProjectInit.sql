@@ -31,7 +31,7 @@ create table Review (
    id int auto_increment primary key,
    mvId int not null,
    username varchar(30) not null,
-   postedOndatetime not null,
+   postedOn datetime not null,
    content varchar(5000) not null,
    score decimal,
    constraint FKReview_mvId foreign key (mvId) references Movie(id)
@@ -41,4 +41,4 @@ create table Review (
 );
 
 insert into User (firstName, lastName, email, password, whenRegistered, role)
-            VALUES ("Joe", "Admin", "adm@com", "pass", NOW(), 1);
+            VALUES ("Joe", "Admin", "adm@11.com", "password", NOW(), 1);
