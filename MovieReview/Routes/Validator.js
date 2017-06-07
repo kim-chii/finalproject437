@@ -19,7 +19,8 @@ Validator.Tags = {
    forbiddenRole: "forbiddenRole",  // Cannot set to this role
    noOldPwd: "noOldPwd",            // Change of password requires password
    dupTitle: "dupTitle",            // Title duplicates an existing Conver
-   dupEnrollment: "dupEnrollment",  // Duplicate enrollment
+   dupEntry: "dupEntry",            // Duplicate movie entry
+   dupReview: "dupReview",          // Duplicate review on a movie
    queryFailed: "queryFailed",
    forbiddenField: "forbiddenField",
    oldPwdMismatch: "oldPwdMismatch"

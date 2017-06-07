@@ -24,7 +24,7 @@ create table Movie (
    genre varchar(30),
    constraint FKReview_ownerId foreign key (ownerId) references User(id)
     on delete cascade,
-   unique key UK_title(title)
+   unique key UK_title(title, director, releaseYear)
 );
 
 create table Review (
