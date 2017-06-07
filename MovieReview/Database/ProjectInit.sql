@@ -40,5 +40,17 @@ create table Review (
     on delete cascade
 );
 
+create table Sentiment (
+    id int auto_increment primary key,
+    mvId int not null,
+    username varchar(30) not null,
+    sentiment int not null,
+    constraint FKReview_mvId foreign key (mvId) references Movie(id)
+     on delete cascade,
+    constraint FKReview_username foreign key (username) references User(email)
+     on delete cascade
+
+);
+
 insert into User (firstName, lastName, email, password, whenRegistered, role)
             VALUES ("Joe", "Admin", "adm@11.com", "password", NOW(), 1);
