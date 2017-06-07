@@ -19,7 +19,7 @@ create table Movie (
    title varchar(80) not null,
    director varchar(80) not null,
    ownerId int,
-   releaseDate datetime not null,
+   releaseYear int not null,
    rating decimal,
    genre varchar(30),
    constraint FKReview_ownerId foreign key (ownerId) references User(id)
