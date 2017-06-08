@@ -15,7 +15,7 @@ router.get('/', function (req, res) {
       params = owner;
    }
 
-   req.cnn.chkQry(qry, params, function(err, cnvs) {
+   req.cnn.chkQry(qry, params, function (err, cnvs) {
       if (!err) {
          res.json(cnvs)
       }
@@ -23,7 +23,7 @@ router.get('/', function (req, res) {
    });
 });
 
-router.post('/', function(req, res) {
+router.post('/', function (req, res) {
    var vld = req.validator;
    var body = req.body;
    var cnn = req.cnn;
@@ -178,7 +178,7 @@ router.post('/:mvId/Rvws', function (req, res) {
        function (cb) {
           cnn.chkQry('select * from Movie where id = ?', [mvId], cb);
        },
-       function(movie, fields, cb) {
+       function (movie, fields, cb) {
           if (vld.check(movie.length, Tags.notFound, null, cb)) {
              cnn.chkQry('select * from Review where username = ? && mvId = ?',
               [username, mvId], cb);
@@ -190,9 +190,9 @@ router.post('/:mvId/Rvws', function (req, res) {
             ['content'], cb) &&
            vld.check(req.body.content.length <= 5000, Tags.badValue,
             ['content'], cb) &&
-          vld.check(req.body.hasOwnProperty("score"), Tags.missingField,
+           vld.check(req.body.hasOwnProperty("score"), Tags.missingField,
             ['score'], cb) &&
-          vld.check(req.body.score > 0 && req.body.score < 6, Tags.badValue,
+           vld.check(req.body.score > 0 && req.body.score < 6, Tags.badValue,
             ['score'], cb))
              cnn.chkQry('insert into Review set ?',
               {
