@@ -42,13 +42,13 @@ create table Review (
 
 create table Sentiment (
     id int auto_increment primary key,
-    mvId int not null,
+    revId int not null,
     username varchar(30) not null,
     sentiment int not null,
-    constraint FKReview_mvId foreign key (mvId) references Movie(id)
+    constraint FKSentiment_revId foreign key (revId) references Review(id)
      on delete cascade,
-    constraint FKReview_username foreign key (username) references User(email)
-     on delete cascade
+    constraint FKSentiment_username foreign key (username)
+    references User(email) on delete cascade
 
 );
 

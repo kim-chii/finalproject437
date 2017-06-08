@@ -67,7 +67,7 @@ router.get('/:mvId', function (req, res) {
           if (vld.check(mvs.length, Tags.notFound, null, cb)) {
 
              res.json({
-                id: mvs[0].id, title: mvs[0].title,
+                id: mvs[0].id, title: mvs[0].title, genre: mvs[0].genre,
                 director: mvs[0].director, releaseYear: mvs[0].releaseYear,
                 ownerId: mvs[0].ownerId
              });

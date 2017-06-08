@@ -43,8 +43,7 @@ app.use(CnnPool.router);
 app.use('/Usrs', require('./Routes/Account/Usrs.js'));
 app.use('/Ssns', require('./Routes/Account/Ssns.js'));
 app.use('/Mvs', require('./Routes/Movie/Mvs.js'));
-//app.use('/Mvs', require('./Routes/Movie/Mvs.js'));
-//app.use('/Rvws', require('./Routes/Movie/Rvws.js'));
+app.use('/Rvws', require('./Routes/Movie/Rvws.js'));
 
 // Special debugging route for /DB DELETE.  Clears all table contents,
 //resets all auto_increment keys to start at 1, and reinserts one admin user.
@@ -54,10 +53,9 @@ app.delete('/DB', function (req, res) {
       req.cnn.release();
    };
 
-
    if (req.validator.check(req.session.isAdmin(), Validator.Tags.noPermission,
      null, cb)) {
-      var cbs = ["User", "Movie", "Review"]
+      var cbs = ["User", "Movie", "Review", "Sentiment"]
        .map(function (tblName) {
           return function (cb) {
              req.cnn.query("delete from " + tblName, cb);
@@ -66,7 +64,7 @@ app.delete('/DB', function (req, res) {
 
       // Callbacks to reset increment bases
       cbs = cbs.concat(
-       ["User", "Movie", "Review"].map(function (tblName) {
+       ["User", "Movie", "Review", "Sentiment"].map(function (tblName) {
           return function (cb) {
              req.cnn.query("alter table " + tblName + " auto_increment = 1",
               cb);
