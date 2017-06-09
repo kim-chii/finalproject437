@@ -9,8 +9,8 @@ router.get('/', function (req, res) {
    var isAdmin = req.session.isAdmin();
    var request = req.query.email;
 
-   var handler = function (err, prsArr) {
-      res.json(prsArr);
+   var handler = function (err, usrArr) {
+      res.json(usrArr);
       req.cnn.release();
    };
 
@@ -53,8 +53,8 @@ router.post('/', function (req, res) {
               body.email, cb);
           }
        },
-       function (existingPrss, fields, cb) {  // If no duplicates, in
-          if (vld.check(!existingPrss.length, Tags.dupEmail, null, cb)) {
+       function (existingUsrs, fields, cb) {  // If no duplicates, in
+          if (vld.check(!existingUsrs.length, Tags.dupEmail, null, cb)) {
              body.termsAccepted = body.termsAccepted ? new Date() : null;
              cnn.chkQry('insert into User set ?', body, cb);
           }
@@ -75,9 +75,9 @@ router.get('/:id', function (req, res) {
    if (vld.checkPrsOK(req.params.id)) {
       req.cnn.query('select email, firstName, lastName, role, termsAccepted'
        + ', id, whenRegistered from User where id = ?', [req.params.id],
-       function (err, prsArr) {
-          if (vld.check(prsArr.length, Tags.notFound))
-             res.json(prsArr);
+       function (err, usrArr) {
+          if (vld.check(usrArr.length, Tags.notFound))
+             res.json(usrArr);
           req.cnn.release();
        });
    }
@@ -143,16 +143,16 @@ router.put('/:id', function (req, res) {
 router.delete('/:id', function (req, res) {
    var vld = req.validator;
    var cnn = req.cnn;
-   var prssId = req.params.id;
+   var usrsId = req.params.id;
 
    async.waterfall([
        function (cb) {
-          cnn.chkQry('select * from User where id = ?', [prssId], cb);
+          cnn.chkQry('select * from User where id = ?', [usrsId], cb);
        },
-       function (prsn, fields, cb) {
-          if (vld.check(prsn.length, Tags.notFound, null, cb) &&
+       function (usr, fields, cb) {
+          if (vld.check(usr.length, Tags.notFound, null, cb) &&
            vld.checkPrsOK(-1, cb))
-             cnn.chkQry('delete from User where id = ?', [prssId], cb);
+             cnn.chkQry('delete from User where id = ?', [usrsId], cb);
        }],
     function (err) {
        if (!err)

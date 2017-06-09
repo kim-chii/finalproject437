@@ -41,7 +41,7 @@ router.put('/:revId', function (req, res) {
           }
        },
        function (user, fields, cb) {
-          if (vld.checkPrsOK(user[0].id, cb)) {
+          if (vld.checkUsrOK(user[0].id, cb)) {
              if (vld.check(req.body.hasOwnProperty("content"),
                Tags.missingField, ['content'], cb) &&
               vld.check(req.body.content.length <= 5000, Tags.badValue,
@@ -128,7 +128,7 @@ router.delete('/:revId/Sentiment/:sntId', function (req, res) {
        },
        function(user, fields, cb) {
           if (vld.check(user.length, Tags.notFound, null, cb)
-           && vld.checkPrsOK(user[0].id, cb)) {
+           && vld.checkUsrOK(user[0].id, cb)) {
              cnn.chkQry('delete from Sentiment where id = ?', [sntId], cb);
           }
        }],

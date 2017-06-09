@@ -71,10 +71,10 @@ Validator.prototype.checkAdmin = function (cb) {
 };
 
 // Validate that AU is the specified person or is an admin
-Validator.prototype.checkPrsOK = function (prsId, cb) {
+Validator.prototype.checkUsrOK = function (usrId, cb) {
 
    var val = this.check(this.session &&
-    (this.session.isAdmin() || this.session.id == prsId),
+    (this.session.isAdmin() || this.session.id == usrId),
     Validator.Tags.noPermission, null, cb);
    return val;
 };

@@ -93,7 +93,7 @@ router.put('/:mvId', function (req, res) {
        },
        function (mvs, fields, cb) {
           if (vld.check(mvs.length, Tags.notFound, null, cb) &&
-           vld.checkPrsOK(mvs[0].ownerId, cb)) {
+           vld.checkUsrOK(mvs[0].ownerId, cb)) {
              var query = 'select * from Movie where id <> ? && title = ? ' +
               '&& director = ? && releaseYear = ?';
              var params = [mvId];
@@ -131,7 +131,7 @@ router.delete('/:mvId', function (req, res) {
        },
        function (mvs, fields, cb) {
           if (vld.check(mvs.length, Tags.notFound, null, cb) &&
-           vld.checkPrsOK(mvs[0].ownerId, cb))
+           vld.checkUsrOK(mvs[0].ownerId, cb))
              cnn.chkQry('delete from Movie where id = ?', [mvId], cb);
        }],
     function (err) {
