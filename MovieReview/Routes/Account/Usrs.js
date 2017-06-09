@@ -72,7 +72,7 @@ router.post('/', function (req, res) {
 router.get('/:id', function (req, res) {
    var vld = req.validator;
 
-   if (vld.checkPrsOK(req.params.id)) {
+   if (vld.checkUsrOK(req.params.id)) {
       req.cnn.query('select email, firstName, lastName, role, termsAccepted'
        + ', id, whenRegistered from User where id = ?', [req.params.id],
        function (err, usrArr) {
@@ -95,7 +95,7 @@ router.put('/:id', function (req, res) {
    async.waterfall([
        function (cb) {
 
-          if (vld.checkPrsOK(req.params.id, cb) &&
+          if (vld.checkUsrOK(req.params.id, cb) &&
            vld.chain(!("termsAccepted" in body), Tags.forbiddenField,
             ["termsAccepted"], cb) &&
            vld.check(!("whenRegistered" in body), Tags.forbiddenField,
@@ -151,7 +151,7 @@ router.delete('/:id', function (req, res) {
        },
        function (usr, fields, cb) {
           if (vld.check(usr.length, Tags.notFound, null, cb) &&
-           vld.checkPrsOK(-1, cb))
+           vld.checkUsrOK(-1, cb))
              cnn.chkQry('delete from User where id = ?', [usrsId], cb);
        }],
     function (err) {
