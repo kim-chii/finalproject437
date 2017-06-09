@@ -7,7 +7,7 @@ app.controller('mvOverviewController',
    
    console.log("Mvs:" + JSON.stringify(mvs));
 
-   $scope.editCnv = function(ndx) {
+   $scope.editMv = function(ndx) {
       $scope.title = cnvs[ndx].title;
 
       $uibM.open({
@@ -25,47 +25,47 @@ app.controller('mvOverviewController',
             mvs[ndx].releaseYear = releaseYear || mvs[ndx].releaseYear,
             mvs[ndx].genre = genre || mvs[ndx].genre
          }).catch(function(err) {
-            if (err && "dupTitle" === err.data[0].tag) {
+            if (err && "dupEntry" === err.data[0].tag) {
                nDlg.show($scope, dupError, "Error");
             }
          })
       });
    };
 
-   $scope.delCnv = function(ndx) {
-      nDlg.show($scope, delQst + cnvs[ndx].title + '?', "Verify", 
+   $scope.delMv = function(ndx) {
+      nDlg.show($scope, delQst + mvs[ndx].title + '?', "Verify", 
        ['Yes', 'No']).then(function(ans) {
           if (ans === 'Yes') {
-             $http.delete("Cnvs/" + cnvs[ndx].id).then(function() {
-                cnvs.splice(ndx, 1);
+             $http.delete("Mvs/" + mvs[ndx].id).then(function() {
+                mvs.splice(ndx, 1);
              });
           }
        });
    }
 
-   $scope.newCnv = function() {
+   $scope.newMv = function() {
       $scope.title = null;
-      $scope.dlgTitle = "New Conversation";
+      $scope.dlgTitle = "New Movie";
       var selectedTitle;
 
       $uibM.open({
-         templateUrl: 'Conversation/editCnvDlg.template.html',
+         templateUrl: 'Movie/editMvDlg.template.html',
          scope: $scope
       }).result
-      .then(function(newTitle) {
-         return $http.post("Cnvs", {title: newTitle});
+      .then(function(newMovie) {
+         //return $http.post("Mvs", {title: newTitle});
+         console.log(JSON.stringify(newMovie));
       })
       .then(function() {
-         return $http.get('/Cnvs');
+         return $http.get('/Mvs');
       })
       .then(function(rsp) {
-         $scope.cnvs = rsp.data;
-         cnvs = rsp.data;
+         $scope.mvs = rsp.data;
+         mvs = rsp.data;
       })
       .catch(function(err) {
-         if (err && err.data[0].tag == "dupTitle") {
-            nDlg.show($scope, "Another conversation already has title " + 
-             selectedTitle, "Error");
+         if (err && err.data[0].tag == "dupEntry") {
+            nDlg.show($scope, dupError, "Error");
          }
       });
    };
