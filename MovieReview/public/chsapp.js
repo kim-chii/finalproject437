@@ -42,12 +42,12 @@ app.filter('tagError', ['errMap', '$rootScope', function(errMap, rs) {
    };
 }]);
 
-app.directive('cnvLineTemplate', [function() {
+app.directive('mvLineTemplate', [function() {
    return {
       restrict: "E",
-      templateUrl: "Conversation/cnvLine.template.html",
+      templateUrl: "Movie/mvLine.template.html",
       scope: {
-         cnv: "=toSummarize",
+         mv: "=toSummarize",
          id: "=userId",
          edit: "&",
          delete: "&"

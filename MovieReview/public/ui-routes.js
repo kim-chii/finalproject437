@@ -43,7 +43,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
          templateUrl: 'Movie/mvOverview.template.html',
          controller: 'mvOverviewController',
          resolve: {
-            cnvs: ['$q', '$http', '$stateParams', function($q, $http, sp) {
+            mvs: ['$q', '$http', '$stateParams', function($q, $http, sp) {
                return $http.get('/Mvs' + (sp.usrId ?
                 '?owner=' + sp.usrId : ''))
                 .then(function(response) {

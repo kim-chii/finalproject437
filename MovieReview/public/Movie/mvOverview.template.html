@@ -1,13 +1,13 @@
 <h2>Movies</h2>
 <div class="list-group">
    <div class="list-group-item" ng-repeat="mv in mvs">
-      <cnv-line-template to-summarize="cnv" user-id="user.id"
-       edit="editCnv($index)" delete="delCnv($index)">
-      </cnv-line-template>
+      <mv-line-template to-summarize="mv" user-id="user.id"
+       edit="editMv($index)" delete="delMv($index)">
+    </mv-line-template>
    </div>
 </div>
 
 <button class="btn btn-primary" type="button" style="margin-top:5px"
- ng-click="newCnv()">
-   New Conversation
+ ng-click="newMv()">
+   New Movie 
 </button>
