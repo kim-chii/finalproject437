@@ -38,6 +38,20 @@ app.config(['$stateProvider', '$urlRouterProvider',
             }]
          }
       })
+      .state('myMvOverview', {
+         url: '/myMvs/:usrId',
+         templateUrl: 'Movie/mvOverview.template.html',
+         controller: 'mvOverviewController',
+         resolve: {
+            cnvs: ['$q', '$http', '$stateParams', function($q, $http, sp) {
+               return $http.get('/Mvs' + (sp.usrId ?
+                '?owner=' + sp.usrId : ''))
+                .then(function(response) {
+                   return response.data;
+                });
+            }]
+         }
+      })
       .state('myCnvOverview', {
          url: '/myCnvs/:prsId',
          templateUrl: 'Conversation/cnvOverview.template.html',
