@@ -104,6 +104,7 @@
 				"00101f77-2778-067b-3768-737f165dcf62",
 				"e6f58cf0-d450-f064-80ce-2edbeb68690d",
 				"0a1eb47c-0576-2352-ce0d-898fd27a17d8",
+				"b5443179-4cfd-1598-a54b-91661537eb78",
 				"9f93e57b-313b-ddfe-7ea9-ebd45536a9f0",
 				"5470ee2b-eb4c-83dc-5de6-c8995bd01f5b",
 				"f1795142-30e6-1a5a-99c4-020cdcf012ea",
@@ -2050,6 +2051,35 @@
 			"folder": "733e792a-0b2f-510d-6d48-fc11c3bb2710"
 		},
 		{
+			"id": "b5443179-4cfd-1598-a54b-91661537eb78",
+			"headers": "",
+			"headerData": [],
+			"url": "{{url}}/Mvs?owner=2",
+			"queryParams": [
+				{
+					"key": "owner",
+					"value": "2",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar jsonData = JSON.parse(responseBody);\ntests[\"Two movies are returned\"] = jsonData.length === 2;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497030423634,
+			"name": "Non-admin 1 my mvs",
+			"description": "",
+			"collectionId": "84ce9578-9a1d-e12f-cf6a-8070c19e28c8",
+			"responses": []
+		},
+		{
 			"id": "b9278efa-830b-7e71-25af-673723a55a8b",
 			"headers": "Content-Type: application/json\n",
 			"url": "{{url}}/Usrs/2",
@@ -2109,23 +2139,25 @@
 			"folder": "949a048e-ef2c-993f-c8e5-6c26c7004bd9"
 		},
 		{
-			"collectionId": "84ce9578-9a1d-e12f-cf6a-8070c19e28c8",
-			"currentHelper": "normal",
+			"id": "bd5b392c-2bff-7efb-74fe-b3f3046bc688",
+			"headers": "",
+			"headerData": [],
+			"url": "{{url}}/Ssns/{{curLogin}}",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
 			"data": null,
 			"dataMode": "params",
-			"description": "",
-			"headers": "",
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar jsonData = JSON.parse(responseBody)\n\ntests[\"Correct cookie\"] = jsonData.cookie == environment.curLogin;\ntests[\"Correct user id\"] = jsonData.usrId === 3;\ntests[\"Has login time\"] = responseBody.has(\"loginTime\")",
+			"currentHelper": "normal",
 			"helperAttributes": {},
-			"id": "bd5b392c-2bff-7efb-74fe-b3f3046bc688",
-			"method": "GET",
+			"time": 1497030633773,
 			"name": "Non-admin can get own session",
-			"pathVariables": {},
-			"preRequestScript": null,
-			"responses": [],
-			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar jsonData = JSON.parse(responseBody)\n\ntests[\"Correct cookie\"] = jsonData.cookie == environment.curLogin;\ntests[\"Correct user id\"] = jsonData.prsId === 3;\ntests[\"Has login time\"] = responseBody.has(\"loginTime\")",
-			"time": 1492640836125,
-			"url": "{{url}}/Ssns/{{curLogin}}",
-			"folder": "dcc6962c-ddc8-cc51-76d8-ef1124f6ab04"
+			"description": "",
+			"collectionId": "84ce9578-9a1d-e12f-cf6a-8070c19e28c8",
+			"responses": []
 		},
 		{
 			"id": "c2365ea2-5b05-9bbc-3730-c8d8e5daf955",
@@ -2552,22 +2584,31 @@
 		{
 			"id": "e6f58cf0-d450-f064-80ce-2edbeb68690d",
 			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "{{url}}/Mvs/1/Rvws",
+			"queryParams": [],
 			"preRequestScript": null,
 			"pathVariables": {},
+			"pathVariableData": [],
 			"method": "POST",
 			"data": [],
 			"dataMode": "raw",
-			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\n\nvar jsonData = JSON.parse(responseBody);\ntests[\"Responce should contain dupReview\"] = jsonData[0].tag === \"dupReview\";",
+			"tests": "tests[\"Status code is 400\"] = responseCode.code === 400;\n\nvar jsonData = JSON.parse(responseBody);\ntests[\"Response should contain dupReview\"] = jsonData[0].tag === \"dupReview\";",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1496812143419,
+			"time": 1497030154225,
 			"name": "Non-admin create second review on same movie",
 			"description": "",
 			"collectionId": "84ce9578-9a1d-e12f-cf6a-8070c19e28c8",
 			"responses": [],
-			"rawModeData": "{\n\t\"score\" : \"5\",\n\t\"content\" : \"This movie was awesome!\"\n}",
-			"folder": "733e792a-0b2f-510d-6d48-fc11c3bb2710"
+			"rawModeData": "{\n\t\"score\" : \"5\",\n\t\"content\" : \"This movie was awesome!\"\n}"
 		},
 		{
 			"id": "e77660dd-5fd8-ad72-5f89-5f46fda2d55a",
