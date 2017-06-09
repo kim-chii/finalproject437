@@ -25,13 +25,13 @@ app.config(['$stateProvider', '$urlRouterProvider',
          templateUrl: 'Register/register.template.html',
          controller: 'registerController',
       })
-      .state('cnvOverview', {
-         url: '/cnvs',
-         templateUrl: 'Conversation/cnvOverview.template.html',
-         controller: 'cnvOverviewController',
+      .state('mvOverview', {
+         url: '/mvs',
+         templateUrl: 'Movie/mvOverview.template.html',
+         controller: 'mvOverviewController',
          resolve: {
-            cnvs: ['$q', '$http', function($q, $http) {
-               return $http.get('/Cnvs')
+            mvs: ['$q', '$http', function($q, $http) {
+               return $http.get('/Mvs')
                .then(function(response) {
                   return response.data;
                });
@@ -58,7 +58,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
          controller: 'cnvOverviewController',
          resolve: {
             cnvs: ['$q', '$http', '$stateParams', function($q, $http, sp) {
-               return $http.get('/Cnvs' + (sp.prsId ? 
+               return $http.get('/Cnvs' + (sp.prsId ?
                 '?owner=' + sp.prsId : ''))
                 .then(function(response) {
                    return response.data;
@@ -66,19 +66,19 @@ app.config(['$stateProvider', '$urlRouterProvider',
             }]
          }
       })
-      .state('cnvDetail', {
-         url: '/cnvs/:cnvId',
-         templateUrl: 'Conversation/cnvDetail.template.html',
-         controller: 'cnvDetailController',
+      .state('mvDetail', {
+         url: '/mvs/:mvId',
+         templateUrl: 'Movie/mvDetail.template.html',
+         controller: 'mvDetailController',
          resolve: {
             msgs: ['$q', '$http', '$stateParams', function($q, $http, sp) {
-               return $http.get('/Cnvs/' + sp.cnvId + '/Msgs')
+               return $http.get('/Mvs/' + sp.cnvId + '/Rvws')
                 .then(function(response) {
                    return response.data;
                 });
             }],
             cnv: ['$q', '$http', '$stateParams', function($q, $http, sp) {
-               return $http.get('/Cnvs/' + sp.cnvId)
+               return $http.get('/Mvs/' + sp.mvId)
                 .then(function(response) {
                    console.log(response.data);
                    return response.data;

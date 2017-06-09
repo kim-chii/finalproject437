@@ -1,0 +1,18 @@
+<h3>{{mv.title}}</h3>
+<div class="list-group">
+   <div class='list-group-item' ng-repeat='rvw in rvws'>
+      <div class='msg-header' ng-binding>
+         {{rvw.whenMade | date : 'medium'}} by {{rvw.email}}
+      </div>
+      <div class='ng-binding'>
+         {{rvw.content}}
+      </div>
+   </div>
+   <form class="ng-pristine ng-valid">
+      <textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" rows="5"
+       placeholder="New Review" ng-model="newMsgContent"></textarea>
+      <button class="btn btn-primary" type="button" style="margin-top:5px" ng-click="newMsg()">
+         New Message
+      </button>
+   </form>
+</div>
