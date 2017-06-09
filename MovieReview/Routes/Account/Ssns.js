@@ -12,7 +12,7 @@ router.get('/', function (req, res) {
    if (req.validator.checkAdmin()) {
       for (var cookie in ssnUtil.sessions) {
          ssn = ssnUtil.sessions[cookie];
-         body.push({cookie: cookie, prsId: ssn.id, loginTime: ssn.loginTime});
+         body.push({cookie: cookie, usrId: ssn.id, loginTime: ssn.loginTime});
       }
       res.status(200).json(body);
    }
@@ -50,9 +50,9 @@ router.get('/:cookie', function (req, res, next) {
    var vld = req.validator;
 
    if (vld.check(ssnUtil.sessions[cookie], Tags.notFound) &&
-    vld.checkPrsOK(ssnUtil.sessions[cookie].id)) {
+    vld.checkUsrOK(ssnUtil.sessions[cookie].id)) {
       res.json({
-         cookie: cookie, prsId: req.session.id,
+         cookie: cookie, usrId: req.session.id,
          loginTime: req.session.loginTime
       });
    }

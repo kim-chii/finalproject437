@@ -1,6 +1,6 @@
-drop database if exists kstan;
-create database kstan;
-use kstan;
+drop database if exists aweir;
+create database aweir;
+use aweir;
 
 create table User (
    id int auto_increment primary key,
