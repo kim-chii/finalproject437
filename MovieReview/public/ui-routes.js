@@ -71,13 +71,13 @@ app.config(['$stateProvider', '$urlRouterProvider',
          templateUrl: 'Movie/mvDetail.template.html',
          controller: 'mvDetailController',
          resolve: {
-            msgs: ['$q', '$http', '$stateParams', function($q, $http, sp) {
-               return $http.get('/Mvs/' + sp.cnvId + '/Rvws')
+            rvws: ['$q', '$http', '$stateParams', function($q, $http, sp) {
+               return $http.get('/Mvs/' + sp.mvId + '/Rvws')
                 .then(function(response) {
                    return response.data;
                 });
             }],
-            cnv: ['$q', '$http', '$stateParams', function($q, $http, sp) {
+            mv: ['$q', '$http', '$stateParams', function($q, $http, sp) {
                return $http.get('/Mvs/' + sp.mvId)
                 .then(function(response) {
                    console.log(response.data);

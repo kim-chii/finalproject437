@@ -1,15 +1,16 @@
 app.controller('mvDetailController',
- ['$scope', '$state', '$http', '$uibModal', 'notifyDlg', 'msgs', 'cnv',
- function($scope, $state, $http, $uibM, nDlg, msgs, cnv) {
-   $scope.msgs = msgs;
-   $scope.cnv = cnv;
+ ['$scope', '$state', '$http', '$uibModal', 'notifyDlg', 'rvws', 'mv',
+ function($scope, $state, $http, $uibM, nDlg, rvws, mv) {
+   $scope.rvws = rvws;
+   $scope.mv = mv;
+   console.log("Rvws: " + JSON.stringify($scope.rvws));
+   console.log("Movie: " + JSON.stringify($scope.mv));
 
-   console.log('Cnv: ' + JSON.stringify(cnv));
-
-   $scope.newMsg = function() {
-      $http.post("Cnvs/" + cnv.id + "/Msgs", {content: $scope.newMsgContent})
+   $scope.newRvw = function() {
+      console.log("New Review to be posted: " + JSON.stringify($scope.rv));
+      $http.post("Mvs/" + mv.id + "/Rvws", $scope.rv);
       .then(function() {
-         return $http.get('/Cnvs/' + cnv.id + '/Msgs');
+         return $http.get('/Mvs/' + mv.id + '/Rvws');
       })
       .then(function(response) {
          $scope.msgs = response.data;
