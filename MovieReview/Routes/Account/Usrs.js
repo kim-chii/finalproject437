@@ -140,6 +140,34 @@ router.put('/:id', function (req, res) {
     });
 });
 
+router.get('/Rvws/:usrId', function(req, res) {
+   var vld = req.validator;
+   var cnn = req.cnn;
+   var query1 = 'select email from User where id = ?';
+   var query2 = 'select id, mvId, username, score, content, postedOn' +
+    ' from Review where username = ?';
+
+   async.waterfall([
+      function(cb) {
+         cnn.chkQry(query1, [req.params.usrId], cb);
+      },
+      function(email, fields, cb) {
+         if (vld.check(email.length, Tags.notFound, null, cb)) {
+            cnn.chkQry(query2, [email[0].email], cb);
+         }
+      },
+      function(reviews, fields, cb) {
+         if (vld.check(reviews.length, Tags.notFound, null, cb)) {
+            res.json(reviews);
+            cb();
+         }
+      }
+   ],
+    function(err) {
+      cnn.release();
+    });
+});
+
 router.delete('/:id', function (req, res) {
    var vld = req.validator;
    var cnn = req.cnn;
