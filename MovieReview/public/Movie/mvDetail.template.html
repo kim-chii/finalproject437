@@ -8,11 +8,11 @@
          {{rvw.postedOn | date : 'medium'}} by {{rvw.username}}
       </div>
       <div class='ng-binding'>
-         {{msg.content}}
+         {{rvw.content}}    Score:{{rvw.score}}
       </div>
    </div>
    <form class="ng-pristine ng-valid">
-      <textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" rows="5" 
+      <textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" rows="5"
        placeholder="New Review" ng-model="rv.content"></textarea>
       <label>Number:
          <input type="number" name="input" ng-model="rv.score"

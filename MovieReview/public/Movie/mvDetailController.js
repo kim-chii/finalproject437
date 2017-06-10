@@ -8,12 +8,15 @@ app.controller('mvDetailController',
 
    $scope.newRvw = function() {
       console.log("New Review to be posted: " + JSON.stringify($scope.rv));
-      $http.post("Mvs/" + mv.id + "/Rvws", $scope.rv);
+      $http.post("Mvs/" + mv.id + "/Rvws", $scope.rv)
       .then(function() {
          return $http.get('/Mvs/' + mv.id + '/Rvws');
       })
       .then(function(response) {
-         $scope.msgs = response.data;
+         $scope.rvs = response.data;
+      })
+      .catch(function() {
+         nDlg.show($scope, "You cannot review a movie twice", "Error");
       });
    };
  }]);
