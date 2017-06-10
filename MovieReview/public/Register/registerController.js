@@ -7,7 +7,7 @@ app.controller('registerController',
    $scope.registerUser = function() {
       $http.post("Usrs", $scope.user)
       .then(function() {
-         return nDlg.show($scope, "Registration succeeded.  " + 
+         return nDlg.show($scope, "Registration succeeded.  " +
           "Login automatically?",
           "Login", ["Yes", "No"]);
       })
@@ -18,7 +18,7 @@ app.controller('registerController',
                login.login($scope.user)
                .then(function(user) {
                   $rs.user = user;
-                  $state.go('home');
+                  $state.go('mvOverview');
                })
                .catch(function() {
                   nDlg.show($scope, "That name/password is not in our" +

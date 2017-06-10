@@ -6,7 +6,7 @@ app.controller('loginController',
       login.login($scope.user)
       .then(function(user) {
          $rs.user = user;
-         $state.go('home');
+         $state.go('mvOverview');
       })
       .catch(function() {
          nDlg.show($scope, "That name/password is not in our records", "Error");
