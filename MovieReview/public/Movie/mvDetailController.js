@@ -6,15 +6,24 @@ app.controller('mvDetailController',
    $scope.sentiment = {};
    console.log("Rvws: " + JSON.stringify($scope.rvws));
    console.log("Movie: " + JSON.stringify($scope.mv));
+   $scope.avgScore = rvws.length ? (function() {
+      var sum = 0;
+      
+      for (var rvw in rvws) {
+         console.log('Review' + rvws[rvw]);
+         sum += rvws[rvw].score
+      } 
+      return sum;
+   })() / rvws.length + '/5': 'N/A';
 
    $scope.newRvw = function() {
       console.log("New Review to be posted: " + JSON.stringify($scope.rv));
       $http.post("Mvs/" + mv.id + "/Rvws", $scope.rv)
       .then(function() {
-         return $http.get('/Mvs/' + mv.id + '/Rvws');
+         return $http.get('Mvs/' + mv.id + '/Rvws');
       })
       .then(function(response) {
-         $scope.rvs = response.data;
+         $scope.rvws = response.data;
       })
       .catch(function(err) {
          if (err.data[0].tag === "dupReview") {

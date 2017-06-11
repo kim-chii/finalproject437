@@ -1,7 +1,6 @@
 
 app.config(['$stateProvider', '$urlRouterProvider',
    function($stateProvider, $router) {
-
       //redirect to home if path is not matched
       $router.otherwise("/");
 
@@ -35,6 +34,9 @@ app.config(['$stateProvider', '$urlRouterProvider',
                .then(function(response) {
                   return response.data;
                });
+            }],
+            rvws: [function() {
+               return null;
             }]
          }
       })
@@ -46,6 +48,28 @@ app.config(['$stateProvider', '$urlRouterProvider',
             mvs: ['$q', '$http', '$stateParams', function($q, $http, sp) {
                return $http.get('/Mvs' + (sp.usrId ?
                 '?owner=' + sp.usrId : ''))
+                .then(function(response) {
+                   return response.data;
+                });
+            }],
+            rvws: [function() {
+               return null;
+            }]
+         }
+      })
+      .state('myMvRvwsOverview', {
+         url: '/myMvRvws/:usrId',
+         templateUrl: 'Movie/mvOverview.template.html',
+         controller: 'mvOverviewController',
+         resolve: {
+            mvs: ['$q', '$http',  function($q, $http) {
+               return $http.get('/Mvs')
+                .then(function(response) {
+                   return response.data;
+                });
+            }],
+            rvws: ['$q', '$http', '$stateParams', function($q, $http, sp) {
+               return $http.get('/Usrs/Rvws/' + sp.usrId)
                 .then(function(response) {
                    return response.data;
                 });

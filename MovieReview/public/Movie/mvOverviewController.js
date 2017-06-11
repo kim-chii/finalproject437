@@ -1,10 +1,26 @@
 app.controller('mvOverviewController',
 ['$scope', '$rootScope', '$state', '$http', '$uibModal', 'notifyDlg', 'mvs',
-function($scope, $root, $state, $http, $uibM, nDlg, mvs) {
-   $scope.mvs = mvs;
+'rvws', function($scope, $root, $state, $http, $uibM, nDlg, mvs, rvws) {
    var dupError = "This movie has already been added";
    var delQst = "Delete movie entitled ";
+   var ndx1, ndx2;
 
+   //filter mvs to only include those a user has reviewed if rvws is defined
+   if (rvws) {
+      var filtered = [];
+      for (ndx1 = 0; ndx1 < mvs.length; ndx1++) {
+         for (ndx2 = 0; ndx2 < rvws.length; ndx2++) {
+            if (mvs[ndx1].id === rvws[ndx2].mvId) {
+               filtered.push(mvs[ndx1]);
+               break;
+            }
+         }
+      }
+      
+      mvs = filtered;
+   }
+
+   $scope.mvs = mvs;
    console.log("Mvs:" + JSON.stringify(mvs));
 
    $scope.editMv = function(ndx) {
