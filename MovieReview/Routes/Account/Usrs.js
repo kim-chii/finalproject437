@@ -157,10 +157,8 @@ router.get('/Rvws/:usrId', function(req, res) {
          }
       },
       function(reviews, fields, cb) {
-         if (vld.check(reviews.length, Tags.notFound, null, cb)) {
-            res.json(reviews);
-            cb();
-         }
+         res.json(reviews);
+         cb();
       }
    ],
     function(err) {
