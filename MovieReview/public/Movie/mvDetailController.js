@@ -43,12 +43,18 @@ app.controller('mvDetailController',
       $q.all(queries).then(function(results) {
          results.forEach(function(rev) {
             var emails = {};
+            var totalSent = 0;
             Object.keys(rev.data).forEach(function(key){
                var sentiment = rev.data[key];
                emails[sentiment.username] = sentiment.sentiment;
+               totalSent += sentiment.sentiment;
             });
 
-            $scope.sentiment[rev.data[0].revId] = emails;
+            $scope.sentiment[rev.data[0].revId] = {
+               emails: emails,
+               sentiment: totalSent
+            };
+
          });
       });
 

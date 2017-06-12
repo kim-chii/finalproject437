@@ -1,4 +1,4 @@
-<h2>{{mv.title}}</h3>
+<h2>{{mv.title}}</h2>
 <h4>Average Score: {{avgScore}}</h4>
 <h4>Director: {{mv.director}}</h4>
 <h4>Release Year: {{mv.releaseYear}}</h4>
@@ -10,6 +10,9 @@
       </div>
       <div class='ng-binding'>
          {{rvw.content}}    Score:{{rvw.score}}
+      </div>
+      <div>
+         Sentiment: {{sentiment[rvw.id].sentiment}}
       </div>
    </div>
    <form class="ng-pristine ng-valid">
