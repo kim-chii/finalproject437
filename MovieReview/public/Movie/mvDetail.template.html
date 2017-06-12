@@ -17,13 +17,17 @@
    </div>
    <form class="ng-pristine ng-valid">
       <textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" rows="5"
-       placeholder="New Review" ng-model="rv.content"></textarea>
-      <label>Score:
-         <input type="number" name="input" ng-model="rv.score"
-           min="0" max="5" required>
-      </label>
-      <button class="btn btn-primary" type="button" style="margin-top:5px" ng-click="newRvw()">
-         New Review
-      </button>
-   </form>
+      placeholder="New Review" ng-model="rv.content">
+   </textarea>
+   <div>
+      <span uib-rating ng-model="rv.score" max=5  enable-reset=false aria-labelledby="default-rating"> </span>
+   </div>
+   <!-- <label>Score: -->
+   <!-- <input type="number" name="input" ng-model="rv.score" -->
+   <!-- min="0" max="5" required> -->
+   <!-- </label> -->
+   <button class="btn btn-primary" type="button" style="margin-top:5px" ng-click="newRvw()">
+      New Review
+   </button>
+</form>
 </div>

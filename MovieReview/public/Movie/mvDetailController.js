@@ -8,11 +8,11 @@ app.controller('mvDetailController',
    console.log("Movie: " + JSON.stringify($scope.mv));
    $scope.avgScore = rvws.length ? (function() {
       var sum = 0;
-      
+
       for (var rvw in rvws) {
          console.log('Review' + rvws[rvw]);
          sum += rvws[rvw].score
-      } 
+      }
       return sum;
    })() / rvws.length + '/5': 'N/A';
 
@@ -50,7 +50,7 @@ app.controller('mvDetailController',
                totalSent += sentiment.sentiment;
             });
 
-            $scope.sentiment[rev.data[0].revId] = {
+            $scope.sentiment[rev.data[0].id] = {
                emails: emails,
                sentiment: totalSent
             };

@@ -16,7 +16,7 @@ app.controller('mvOverviewController',
             }
          }
       }
-      
+
       mvs = filtered;
    }
 
