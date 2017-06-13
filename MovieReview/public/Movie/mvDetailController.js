@@ -21,8 +21,8 @@ app.controller('mvDetailController',
       console.log("New Review to be posted: " + JSON.stringify($scope.rv));
       $http.post("Mvs/" + mv.id + "/Rvws", $scope.rv)
       .then(function() {
-         
          return $http.get('Mvs/' + mv.id + '/Rvws');
+         rv.content = "";
       })
       .then(function(response) {
          $scope.rvws = response.data;

@@ -5,15 +5,15 @@
    <form name="newMovieForm">
       <fieldset class="form-group">
          <label>Movie Title</label>
-         <input type="text" class="form-control" placeholder="Title" ng-model="mv.title">
+         <input type="text" class="form-control" placeholder="Title" ng-model="mv.title" required>
       </fieldset>
       <fieldset class="form-group">
          <label>Director</label>
-         <input type="text" class="form-control" placeholder="Director" ng-model="mv.director">
+         <input type="text" class="form-control" placeholder="Director" ng-model="mv.director" required>
       </fieldset>
       <fieldset class="form-group">
          <label>Release Year</label>
-         <input type="text" class="form-control" placeholder="Release Year" ng-model="mv.releaseYear">
+         <input type="number" min="1880" class="form-control" placeholder="Release Year" ng-model="mv.releaseYear" required>
       </fieldset>
       <fieldset class="form-group">
          <label>Genre</label>
@@ -22,7 +22,7 @@
    </form>
 </div>
 <div class="modal-footer">
-   <button type="button" class="btn btn-primary" ng-disabled="!mv.title"
+   <button type="button" ng-disabled="newMovieForm.$invalid" class="btn btn-primary"
     ng-click="$close(title)">OK</button>
    <button type="button" class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
 </div>

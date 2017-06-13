@@ -73,6 +73,9 @@ function($scope, $root, $state, $http, $uibM, nDlg, mvs, rvws, params) {
       }).result
       .then(function() {
          console.log(JSON.stringify($scope.mv));
+         if(!$scope.mv.genre) {
+            $scope.mv.genre = "N/A";
+         }
          return $http.post("Mvs", $scope.mv);
       })
       .then(function() {
@@ -91,6 +94,9 @@ function($scope, $root, $state, $http, $uibM, nDlg, mvs, rvws, params) {
       .catch(function(err) {
          if (err && err.data[0].tag == "dupEntry") {
             nDlg.show($scope, dupError, "Error");
+         }
+         else {
+            nDlg.show($scope, "Please check release year.");
          }
       });
    };
