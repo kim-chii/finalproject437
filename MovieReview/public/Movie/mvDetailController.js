@@ -34,6 +34,38 @@ app.controller('mvDetailController',
       });
    };
 
+   $scope.like = function(id) {
+      likeReview(1, id);
+   };
+
+   $scope.dislike = function(id) {
+      likeReview(-1, id);
+   };
+
+   var likeReview = function(sentimentScore, revId) {
+      var username = $scope.user.email;
+      var sentiment = $scope.sentiment[revId].emails[username];
+      var queries = [];
+
+      if ($scope.sentiment[revId] && sentiment && sentiment.id ) {
+
+         queries[0] = $http.delete('/Rvws/' + revId +
+          '/Sentiment/' + sentiment.id);
+
+         if (sentiment.sentiment !== sentimentScore) {
+            queries[1] = $http.post('/Rvws/' + revId + '/Sentiment',
+             {sentiment: sentimentScore})
+         }
+      } else {
+         queries[0] = $http.post('/Rvws/' + revId + '/Sentiment',
+          {sentiment: sentimentScore})
+      }
+
+      $q.all(queries).then(function(results) {
+         init();
+      });
+   };
+
    var init = function() {
       var queries = [];
       rvws.forEach(function(rev, i) {
@@ -46,11 +78,13 @@ app.controller('mvDetailController',
             var totalSent = 0;
             Object.keys(rev.data).forEach(function(key){
                var sentiment = rev.data[key];
-               emails[sentiment.username] = sentiment.sentiment;
+               emails[sentiment.username] = {
+                  id: sentiment.id, sentiment: sentiment.sentiment
+               };
                totalSent += sentiment.sentiment;
             });
 
-            $scope.sentiment[rev.data[0].id] = {
+            $scope.sentiment[rev.data[0].revId] = {
                emails: emails,
                sentiment: totalSent
             };
