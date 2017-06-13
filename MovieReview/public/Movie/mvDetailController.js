@@ -6,7 +6,7 @@ app.controller('mvDetailController',
    $scope.sentiment = {};
    console.log("Rvws: " + JSON.stringify($scope.rvws));
    console.log("Movie: " + JSON.stringify($scope.mv));
-   $scope.avgScore = rvws.length ? (function() {
+   $scope.avgScore = rvws.length ? ((function() {
       var sum = 0;
 
       for (var rvw in rvws) {
@@ -14,7 +14,7 @@ app.controller('mvDetailController',
          sum += rvws[rvw].score
       }
       return sum;
-   })() / rvws.length + '/5': 'N/A';
+   })() / rvws.length).toFixed(1) + '/5': 'N/A';
 
 
    $scope.newRvw = function() {
@@ -26,6 +26,8 @@ app.controller('mvDetailController',
       })
       .then(function(response) {
          $scope.rvws = response.data;
+         rvws = response.data;
+         init();
       })
       .catch(function(err) {
          if (err.data[0].tag === "dupReview") {
