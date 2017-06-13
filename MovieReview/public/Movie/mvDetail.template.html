@@ -8,13 +8,14 @@
 <div class="list-group">
    <div class='list-group-item review-item' ng-repeat='rvw in rvws'>
       <div class='msg-header' ng-binding>
-         {{rvw.postedOn | date : 'medium'}} by {{rvw.username}}
+         {{rvw.postedOn | date : 'medium'}} by {{rvw.username}}&nbsp &nbsp
+         <span uib-rating ng-model="rvw.score" read-only="true"  max=5  aria-labelledby="default-rating"> </span>
+         &nbsp &nbsp  Sentiment: {{sentiment[rvw.id].sentiment || 0}}
       </div>
       <div class='ng-binding'>
-         {{rvw.content}}    Score:{{rvw.score}}
+         {{rvw.content}}
       </div>
-      <div>
-         Sentiment: {{sentiment[rvw.id].sentiment || 0}}
+      <div >
          <div class="like-buttons">
             <button class="btn btn-default btn-sm pull-right" type="button" style="margin-top:5px"
             ng-click="like(rvw.id)">

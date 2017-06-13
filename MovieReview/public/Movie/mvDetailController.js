@@ -21,6 +21,7 @@ app.controller('mvDetailController',
       console.log("New Review to be posted: " + JSON.stringify($scope.rv));
       $http.post("Mvs/" + mv.id + "/Rvws", $scope.rv)
       .then(function() {
+         
          return $http.get('Mvs/' + mv.id + '/Rvws');
       })
       .then(function(response) {
@@ -29,7 +30,7 @@ app.controller('mvDetailController',
       .catch(function(err) {
          if (err.data[0].tag === "dupReview") {
             nDlg.show($scope, "You cannot review a movie twice", "Error");
-         } 
+         }
          else {
             nDlg.show($scope, "You must fill the required fields ", "Error");
          }
@@ -46,7 +47,7 @@ app.controller('mvDetailController',
 
    var likeReview = function(sentimentScore, revId) {
       var username = $scope.user.email;
-      var sentiment = $scope.sentiment[revId] ? 
+      var sentiment = $scope.sentiment[revId] ?
        $scope.sentiment[revId].emails[username] : null;
       var queries = [];
 
@@ -59,7 +60,7 @@ app.controller('mvDetailController',
                 {sentiment: sentimentScore});
             }
          });
-      } 
+      }
      else {
         queries[0] = $http.post('/Rvws/' + revId + '/Sentiment',
          {sentiment: sentimentScore})
