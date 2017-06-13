@@ -1,10 +1,12 @@
-<h2>{{mv.title}}</h2>
-<h4>Average Score: {{avgScore}}</h4>
-<h4>Director: {{mv.director}}</h4>
-<h4>Release Year: {{mv.releaseYear}}</h4>
-<h4>Genre: {{mv.genre}}</h4>
+<div class="detail-header">
+   <h2>{{mv.title}}</h2>
+   <h4>Average Score: {{avgScore}}</h4>
+   <h4>Director: {{mv.director}}</h4>
+   <h4>Release Year: {{mv.releaseYear}}</h4>
+   <h4>Genre: {{mv.genre}}</h4>
+</div>
 <div class="list-group">
-   <div class='list-group-item' ng-repeat='rvw in rvws'>
+   <div class='list-group-item review-item' ng-repeat='rvw in rvws'>
       <div class='msg-header' ng-binding>
          {{rvw.postedOn | date : 'medium'}} by {{rvw.username}}
       </div>
@@ -14,28 +16,28 @@
       <div>
          Sentiment: {{sentiment[rvw.id].sentiment}}
          <button class="btn btn-primary" type="button" style="margin-top:5px"
-                 ng-click="like(rvw.id)">
-            Like
-         </button>
-         <button class="btn btn-primary" type="button" style="margin-top:5px"
-                 ng-click="dislike(rvw.id)">
-            Dislike
-         </button>
-      </div>
-   </div>
-   <form class="ng-pristine ng-valid">
-      <textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" rows="5"
-      placeholder="New Review" ng-model="rv.content">
-   </textarea>
-   <div>
-      <span uib-rating ng-model="rv.score" max=5  enable-reset=false aria-labelledby="default-rating"> </span>
-   </div>
-   <!-- <label>Score: -->
-   <!-- <input type="number" name="input" ng-model="rv.score" -->
-   <!-- min="0" max="5" required> -->
-   <!-- </label> -->
-   <button class="btn btn-primary" type="button" style="margin-top:5px" ng-click="newRvw()">
-      New Review
+         ng-click="like(rvw.id)">
+         Like
+      </button>
+      <button class="btn btn-primary" type="button" style="margin-top:5px"
+      ng-click="dislike(rvw.id)">
+      Dislike
    </button>
+</div>
+</div>
+<form class="ng-pristine ng-valid">
+   <textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" rows="5"
+   placeholder="New Review" ng-model="rv.content">
+</textarea>
+<div class="stars">
+   <span uib-rating ng-model="rv.score" max=5  enable-reset=false aria-labelledby="default-rating"> </span>
+</div>
+<!-- <label>Score: -->
+<!-- <input type="number" name="input" ng-model="rv.score" -->
+<!-- min="0" max="5" required> -->
+<!-- </label> -->
+<button class="btn btn-primary new-review" type="button" style="margin-top:5px" ng-click="newRvw()">
+   New Review
+</button>
 </form>
 </div>

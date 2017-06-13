@@ -1,4 +1,55 @@
 .msg-header {
-   clear: both;
-   background-color: #EEF;
+    clear: both;
+    background-color: #EEF;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/*Movie Detail Page*/
+.list-group-item.review-item {
+    border-radius: 25px;
+    border-color: #2a3f63;
+    border-width: 2px;
+    border-style: solid 1px;
+    margin: 20px 200px;
+    height: auto;
+    background-color: #EBEBEC;
+    font-size: 14px;
+}
+
+.review-item {
+   font-size: 10px;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    height: 50px;
+    font-size: 20px;
+}
+
+.stars {
+   margin: auto;
+   width: 100px;
+}
+
+textarea.form-control {
+    height: auto;
+    margin: auto;
+    width: 800px;
+}
+
+.jumbotron {
+   padding-left: 70px;
+   padding-right: 70px;
+}
+
+.detail-header h2, h4 {
+    margin: auto;
+    text-align: center;
+    padding: 4px;
 }
