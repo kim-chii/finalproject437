@@ -16,6 +16,7 @@ app.controller('mvDetailController',
       return sum;
    })() / rvws.length + '/5': 'N/A';
 
+
    $scope.newRvw = function() {
       console.log("New Review to be posted: " + JSON.stringify($scope.rv));
       $http.post("Mvs/" + mv.id + "/Rvws", $scope.rv)
@@ -28,7 +29,8 @@ app.controller('mvDetailController',
       .catch(function(err) {
          if (err.data[0].tag === "dupReview") {
             nDlg.show($scope, "You cannot review a movie twice", "Error");
-         } else {
+         } 
+         else {
             nDlg.show($scope, "You must fill the required fields ", "Error");
          }
       });
@@ -44,27 +46,23 @@ app.controller('mvDetailController',
 
    var likeReview = function(sentimentScore, revId) {
       var username = $scope.user.email;
-      var sentiment = $scope.sentiment[revId];
+      var sentiment = $scope.sentiment[revId] ? 
+       $scope.sentiment[revId].emails[username] : null;
       var queries = [];
 
       if (sentiment) {
-         sentiment = sentiment.emails[username]
-      } else {
-         sentiment = null;
-      }
-
-      if ($scope.sentiment[revId] && sentiment && sentiment.id ) {
-
          queries[0] = $http.delete('/Rvws/' + revId +
-          '/Sentiment/' + sentiment.id);
-
-         if (sentiment.sentiment !== sentimentScore) {
-            queries[1] = $http.post('/Rvws/' + revId + '/Sentiment',
-             {sentiment: sentimentScore})
-         }
-      } else {
-         queries[0] = $http.post('/Rvws/' + revId + '/Sentiment',
-          {sentiment: sentimentScore})
+          '/Sentiment/' + sentiment.id)
+         .then(function() {
+            if (sentiment.sentiment !== sentimentScore) {
+               queries[1] = $http.post('/Rvws/' + revId + '/Sentiment',
+                {sentiment: sentimentScore});
+            }
+         });
+      } 
+     else {
+        queries[0] = $http.post('/Rvws/' + revId + '/Sentiment',
+         {sentiment: sentimentScore})
       }
 
       $q.all(queries).then(function(results) {
@@ -78,31 +76,25 @@ app.controller('mvDetailController',
          queries[i] = $http.get('/Rvws/' + rev.id + '/Sentiment');
       });
 
-      $scope.sentiment = {};
-
-
       $q.all(queries).then(function(results) {
-         results.forEach(function(rev) {
+         results.forEach(function(result, ndx) {
             var emails = {};
             var totalSent = 0;
-            Object.keys(rev.data).forEach(function(key){
-               var sentiment = rev.data[key];
+            Object.keys(result.data).forEach(function(key){
+               var sentiment = result.data[key];
                emails[sentiment.username] = {
                   id: sentiment.id, sentiment: sentiment.sentiment
                };
                totalSent += sentiment.sentiment;
             });
 
-            if (rev.data[0]) {
-               $scope.sentiment[rev.data[0].revId] = {
-                  emails: emails,
-                  sentiment: totalSent
-               };
-            }
+            $scope.sentiment[rvws[ndx].id] = {
+               emails: emails,
+               sentiment: totalSent
+            };
+
          });
       });
-
-      console.log($scope.sentiment)
 
    };
 
