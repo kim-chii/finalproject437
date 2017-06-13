@@ -1,6 +1,7 @@
 app.controller('mvOverviewController',
 ['$scope', '$rootScope', '$state', '$http', '$uibModal', 'notifyDlg', 'mvs',
-'rvws', function($scope, $root, $state, $http, $uibM, nDlg, mvs, rvws) {
+'rvws', '$stateParams',
+function($scope, $root, $state, $http, $uibM, nDlg, mvs, rvws, params) {
    var dupError = "This movie has already been added";
    var delQst = "Delete movie entitled ";
    var ndx1, ndx2;
@@ -75,7 +76,13 @@ app.controller('mvOverviewController',
          return $http.post("Mvs", $scope.mv);
       })
       .then(function() {
+         //checking to see if user is on My Movies page
+         if (params.myMovie === true) {
+            return $http.get('/Mvs?owner=' + $root.user.id);
+         }
+         else {
          return $http.get('/Mvs');
+         }
       })
       .then(function(rsp) {
          $scope.mvs = rsp.data;

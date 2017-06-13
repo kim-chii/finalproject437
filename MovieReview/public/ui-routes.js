@@ -44,6 +44,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
          url: '/myMvs/:usrId',
          templateUrl: 'Movie/mvOverview.template.html',
          controller: 'mvOverviewController',
+         params: {myMovie: true},
          resolve: {
             mvs: ['$q', '$http', '$stateParams', function($q, $http, sp) {
                return $http.get('/Mvs' + (sp.usrId ?
@@ -70,20 +71,6 @@ app.config(['$stateProvider', '$urlRouterProvider',
             }],
             rvws: ['$q', '$http', '$stateParams', function($q, $http, sp) {
                return $http.get('/Usrs/Rvws/' + sp.usrId)
-                .then(function(response) {
-                   return response.data;
-                });
-            }]
-         }
-      })
-      .state('myCnvOverview', {
-         url: '/myCnvs/:prsId',
-         templateUrl: 'Conversation/cnvOverview.template.html',
-         controller: 'cnvOverviewController',
-         resolve: {
-            cnvs: ['$q', '$http', '$stateParams', function($q, $http, sp) {
-               return $http.get('/Cnvs' + (sp.prsId ?
-                '?owner=' + sp.prsId : ''))
                 .then(function(response) {
                    return response.data;
                 });
