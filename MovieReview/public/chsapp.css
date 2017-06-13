@@ -1,35 +1,70 @@
+/*General */
 .msg-header {
-    clear: both;
-    background-color: #EEF;
-    font-size: 14px;
-    font-weight: bold;
+   clear: both;
+   font-size: 14px;
+   font-weight: bold;
 }
 
+a:hover {
+   color: #0a4e65;
+   text-decoration: none;
+}
+
+.form-control {
+   border-radius: 20px;
+}
+
+/*Navigation Bar*/
+.navbar {
+   padding-top: 10px;
+   padding-bottom: 10px;
+}
+
+.navbar a {
+   font-size: 20px;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default
+.navbar-nav>li>a:focus {
+   color: #008CBA;
+   background-color: none;
+}
+
+.new-mv-btn, .new-review{
+    padding: 12px;
+    margin-left: 10px;
+}
+
+.new-review {
+   margin-left: 45%;
+}
 /*Movie Detail Page*/
 .list-group-item.review-item {
-    border-radius: 25px;
-    border-color: #2a3f63;
-    border-width: 2px;
-    border-style: solid 1px;
-    margin: 20px 200px;
-    height: auto;
-    background-color: #EBEBEC;
-    font-size: 14px;
+   border-radius: 25px;
+   border-color: #2a3f63;
+   border-width: 2px;
+   border-style: solid 1px;
+   margin: 20px 200px;
+   height: auto;
+   background-color: #EBEBEC;
+   font-size: 14px;
+   padding-bottom: 30px;
 }
 
 .review-item {
    font-size: 10px;
 }
 
+
 .list-group-item {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: -1px;
-    background-color: #ffffff;
-    border: 1px solid #dddddd;
-    height: 50px;
-    font-size: 20px;
+   position: relative;
+   display: block;
+   padding: 10px 15px;
+   margin-bottom: -1px;
+   background-color: #ffffff;
+   border: 1px solid #dddddd;
+   height: 50px;
+   font-size: 20px;
 }
 
 .stars {
@@ -38,9 +73,9 @@
 }
 
 textarea.form-control {
-    height: auto;
-    margin: auto;
-    width: 800px;
+   height: auto;
+   margin: auto;
+   width: 800px;
 }
 
 .jumbotron {
@@ -49,7 +84,13 @@ textarea.form-control {
 }
 
 .detail-header h2, h4 {
-    margin: auto;
-    text-align: center;
-    padding: 4px;
+   margin: auto;
+   text-align: center;
+   padding: 4px;
+}
+
+.like-buttons {
+    height: 50px;
+    width: 100px;
+    float: right;
 }
