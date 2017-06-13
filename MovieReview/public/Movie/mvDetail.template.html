@@ -14,7 +14,7 @@
          {{rvw.content}}    Score:{{rvw.score}}
       </div>
       <div>
-         Sentiment: {{sentiment[rvw.id].sentiment}}
+         Sentiment: {{sentiment[rvw.id].sentiment || 0}}
          <button class="btn btn-primary" type="button" style="margin-top:5px"
          ng-click="like(rvw.id)">
          Like

@@ -44,8 +44,14 @@ app.controller('mvDetailController',
 
    var likeReview = function(sentimentScore, revId) {
       var username = $scope.user.email;
-      var sentiment = $scope.sentiment[revId].emails[username];
+      var sentiment = $scope.sentiment[revId];
       var queries = [];
+
+      if (sentiment) {
+         sentiment = sentiment.emails[username]
+      } else {
+         sentiment = null;
+      }
 
       if ($scope.sentiment[revId] && sentiment && sentiment.id ) {
 
@@ -72,6 +78,9 @@ app.controller('mvDetailController',
          queries[i] = $http.get('/Rvws/' + rev.id + '/Sentiment');
       });
 
+      $scope.sentiment = {};
+
+
       $q.all(queries).then(function(results) {
          results.forEach(function(rev) {
             var emails = {};
@@ -84,11 +93,12 @@ app.controller('mvDetailController',
                totalSent += sentiment.sentiment;
             });
 
-            $scope.sentiment[rev.data[0].revId] = {
-               emails: emails,
-               sentiment: totalSent
-            };
-
+            if (rev.data[0]) {
+               $scope.sentiment[rev.data[0].revId] = {
+                  emails: emails,
+                  sentiment: totalSent
+               };
+            }
          });
       });
 
