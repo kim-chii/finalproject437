@@ -95,9 +95,6 @@ function($scope, $root, $state, $http, $uibM, nDlg, mvs, rvws, params) {
          if (err && err.data[0].tag == "dupEntry") {
             nDlg.show($scope, dupError, "Error");
          }
-         else {
-            nDlg.show($scope, "Please check release year.");
-         }
       });
    };
 }]);
