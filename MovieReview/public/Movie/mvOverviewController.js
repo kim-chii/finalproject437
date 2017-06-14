@@ -28,6 +28,12 @@ function($scope, $root, $state, $http, $uibM, nDlg, mvs, rvws, params) {
       //prepopulate textbox
       $scope.title = mvs[ndx].title;
       $scope.mv = $scope.mvs[ndx];
+      $scope.dlgMv = {
+         title: $scope.mv.title,
+         director: $scope.mv.director,
+         releaseYear: $scope.mv.releaseYear,
+         genre: $scope.mv.genre
+      };
 
       $uibM.open({
          templateUrl: "Movie/editMvDlg.template.html",
@@ -35,7 +41,7 @@ function($scope, $root, $state, $http, $uibM, nDlg, mvs, rvws, params) {
       }).result
       .then(function() {
          console.log(JSON.stringify($scope.mv));
-         $http.put("mvs/" + $scope.mv.id, $scope.mv);
+         $http.put("mvs/" + $scope.mv.id, $scope.dlgMv);
       })
       .then(function() {
          return $http.get('/Mvs');
@@ -94,9 +100,6 @@ function($scope, $root, $state, $http, $uibM, nDlg, mvs, rvws, params) {
       .catch(function(err) {
          if (err && err.data[0].tag == "dupEntry") {
             nDlg.show($scope, dupError, "Error");
-         }
-         else {
-            nDlg.show($scope, "Please check release year.");
          }
       });
    };
