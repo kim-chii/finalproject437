@@ -8,4 +8,9 @@
 - Added the movie overview and my movies page
 - Made fixes to frontend where needed
 
-
+###Mitchell Zehr
+- Backend Mvs/Rvws endpoints
+- Front end functionality for likes and liking reviews(Sentiment)
+- Wrote postman tests
+- Backend bug fixing
+- Some front end bug fixes
