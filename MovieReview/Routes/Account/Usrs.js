@@ -5,11 +5,11 @@ var async = require('async');
 
 router.baseURL = '/Usrs';
 
-router.get('/', function (req, res) {
+router.get('/', function(req, res) {
    var isAdmin = req.session.isAdmin();
    var request = req.query.email;
 
-   var handler = function (err, usrArr) {
+   var handler = function(err, usrArr) {
       res.json(usrArr);
       req.cnn.release();
    };
@@ -31,7 +31,7 @@ router.get('/', function (req, res) {
 
 });
 
-router.post('/', function (req, res) {
+router.post('/', function(req, res) {
    var vld = req.validator;  // Shorthands
    var body = req.body;
    var admin = req.session && req.session.isAdmin();
@@ -42,7 +42,7 @@ router.post('/', function (req, res) {
    body.whenRegistered = new Date();
 
    async.waterfall([
-       function (cb) { // Check properties and search for Email duplicates
+       function(cb) { // Check properties and search for Email duplicates
           if (vld.hasFields(body, ["email", "lastName", "password", "role"],
             cb) &&
            vld.chain(body.role === 0 || admin, Tags.noPermission)
@@ -53,29 +53,29 @@ router.post('/', function (req, res) {
               body.email, cb);
           }
        },
-       function (existingUsrs, fields, cb) {  // If no duplicates, in
+       function(existingUsrs, fields, cb) {  // If no duplicates, in
           if (vld.check(!existingUsrs.length, Tags.dupEmail, null, cb)) {
              body.termsAccepted = body.termsAccepted ? new Date() : null;
              cnn.chkQry('insert into User set ?', body, cb);
           }
        },
-       function (result, fields, cb) { // Return location of inserted User
+       function(result, fields, cb) { // Return location of inserted User
           res.location(router.baseURL + '/' + result.insertId).end();
           cb();
        }],
-    function () {
+    function() {
        cnn.release();
     });
 });
 
 
-router.get('/:id', function (req, res) {
+router.get('/:id', function(req, res) {
    var vld = req.validator;
 
    if (vld.checkUsrOK(req.params.id)) {
       req.cnn.query('select email, firstName, lastName, role, termsAccepted'
        + ', id, whenRegistered from User where id = ?', [req.params.id],
-       function (err, usrArr) {
+       function(err, usrArr) {
           if (vld.check(usrArr.length, Tags.notFound))
              res.json(usrArr);
           req.cnn.release();
@@ -86,14 +86,14 @@ router.get('/:id', function (req, res) {
    }
 });
 
-router.put('/:id', function (req, res) {
+router.put('/:id', function(req, res) {
    var body = req.body;
    var vld = req.validator;
    var admin = req.session.isAdmin();
    var cnn = req.cnn;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
 
           if (vld.checkUsrOK(req.params.id, cb) &&
            vld.chain(!("termsAccepted" in body), Tags.forbiddenField,
@@ -114,7 +114,7 @@ router.put('/:id', function (req, res) {
           }
        },
        //qRes is the expected result, fields are the column names
-       function (qRes, fields, cb) {
+       function(qRes, fields, cb) {
           //Use 2 checks because we want the previous check
           // result before 2nd check
           if (vld.check(qRes.length, Tags.notFound, null, cb) &&
@@ -131,11 +131,11 @@ router.put('/:id', function (req, res) {
              //cb();
           }
        },
-       function (qRes, fields, cb) {
+       function(qRes, fields, cb) {
           res.status(200).end();
           cb();
        }],
-    function (err) {
+    function(err) {
        req.cnn.release();
     });
 });
@@ -172,15 +172,15 @@ router.delete('/:id', function (req, res) {
    var usrsId = req.params.id;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
           cnn.chkQry('select * from User where id = ?', [usrsId], cb);
        },
-       function (usr, fields, cb) {
+       function(usr, fields, cb) {
           if (vld.check(usr.length, Tags.notFound, null, cb) &&
            vld.checkUsrOK(-1, cb))
              cnn.chkQry('delete from User where id = ?', [usrsId], cb);
        }],
-    function (err) {
+    function(err) {
        if (!err)
           res.status(200).end();
        req.cnn.release();

@@ -5,42 +5,42 @@ var async = require('async');
 
 router.baseURL = '/Rvws';
 
-router.get('/:revId', function (req, res) {
+router.get('/:revId', function(req, res) {
    var vld = req.validator;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
           req.cnn.chkQry('select id, username, score, content, postedOn' +
            ' from Review where id = ?',
            [req.params.revId], cb);
        },
-       function (review, fields, cb) {
+       function(review, fields, cb) {
           if (vld.check(review.length, Tags.notFound, null, cb)) {
              res.location(router.baseURL + '/' + review[0].id);
              res.json(review[0]);
              cb();
           }
        }],
-    function (err) {
+    function(err) {
        req.cnn.release();
     });
 });
 
-router.put('/:revId', function (req, res) {
+router.put('/:revId', function(req, res) {
    var vld = req.validator;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
           req.cnn.chkQry('select * from Review where id = ?',
            [req.params.revId], cb)
        },
-       function (review, fields, cb) {
+       function(review, fields, cb) {
           if (vld.check(review.length, Tags.notFound, null, cb)) {
              req.cnn.chkQry('select * from User where email = ?',
               [review[0].username], cb)
           }
        },
-       function (user, fields, cb) {
+       function(user, fields, cb) {
           if (vld.checkUsrOK(user[0].id, cb)) {
              if (vld.check(req.body.hasOwnProperty("content"),
                Tags.missingField, ['content'], cb) &&
@@ -55,67 +55,67 @@ router.put('/:revId', function (req, res) {
                     req.params.revId], cb);
           }
        },
-       function (qRes, fields, cb) {
+       function(qRes, fields, cb) {
           res.status(200).end();
           cb();
        }],
-    function (err) {
+    function(err) {
        req.cnn.release();
     })
 });
 
-router.get('/:revId/Sentiment', function (req, res) {
+router.get('/:revId/Sentiment', function(req, res) {
    var vld = req.validator;
    var revId = req.params.revId;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
           req.cnn.chkQry('select * from Sentiment where revId = ?', [revId], cb)
        },
-       function (likes, fields, cb) {
+       function(likes, fields, cb) {
           res.json(likes);
           cb();
        }
     ],
-    function (err) {
+    function(err) {
        req.cnn.release();
     });
 
 });
 
-router.post('/:revId/Sentiment', function (req, res) {
+router.post('/:revId/Sentiment', function(req, res) {
    var vld = req.validator;
    var revId = req.params.revId;
    var sentiment = req.body.sentiment;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
           req.cnn.chkQry("select * from Review where id = ?", [revId], cb);
        },
-       function (review, fields, cb) {
+       function(review, fields, cb) {
           if (vld.check(review.length, Tags.notFound, null, cb)) {
              req.cnn.chkQry('select * from Sentiment where revId = ? ' +
               '&& username = ?', [revId, req.session.email], cb)
           }
        },
-       function (prevSentiments, fields, cb) {
+       function(prevSentiments, fields, cb) {
           if (vld.check(!prevSentiments.length, Tags.dupEntry, null, cb)) {
              req.cnn.chkQry('insert into Sentiment set ?', {
                 revId: revId, username: req.session.email, sentiment: sentiment
              }, cb)
           }
        },
-       function (insRes, fields, cb) {
+       function(insRes, fields, cb) {
           res.location(router.baseURL + '/' + insRes.insertId).end();
           cb();
        }
     ],
-    function (err) {
+    function(err) {
        req.cnn.release()
     });
 });
 
-router.delete('/:revId/Sentiment/:sntId', function (req, res) {
+router.delete('/:revId/Sentiment/:sntId', function(req, res) {
    var vld = req.validator;
    var cnn = req.cnn;
    var sntId = req.params.sntId;
@@ -132,7 +132,7 @@ router.delete('/:revId/Sentiment/:sntId', function (req, res) {
              cnn.chkQry('delete from Sentiment where id = ?', [sntId], cb);
           }
        }],
-    function (err) {
+    function(err) {
        if (!err)
           res.status(200).end();
        req.cnn.release();

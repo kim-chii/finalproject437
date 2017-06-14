@@ -26,7 +26,7 @@ app.use(Session.router);
 
 // Check general login.  If OK, add Validator to |d continue processing,
 // otherwise respond immediately with 401 and noLogin error tag.
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
    console.log(req.path);
    if (req.session || (req.method === 'POST' &&
     (req.path === '/Usrs' || req.path === '/Ssns'))) {
@@ -47,16 +47,16 @@ app.use('/Rvws', require('./Routes/Movie/Rvws.js'));
 
 // Special debugging route for /DB DELETE.  Clears all table contents,
 //resets all auto_increment keys to start at 1, and reinserts one admin user.
-app.delete('/DB', function (req, res) {
+app.delete('/DB', function(req, res) {
    // Callbacks to clear tables
-   var cb = function () {
+   var cb = function() {
       req.cnn.release();
    };
 
    if (req.validator.check(req.session.isAdmin(), Validator.Tags.noPermission,
      null, cb)) {
       var cbs = ["User", "Movie", "Review", "Sentiment"]
-       .map(function (tblName) {
+       .map(function(tblName) {
           return function (cb) {
              req.cnn.query("delete from " + tblName, cb);
           };
@@ -65,27 +65,27 @@ app.delete('/DB', function (req, res) {
       // Callbacks to reset increment bases
       cbs = cbs.concat(
        ["User", "Movie", "Review", "Sentiment"].map(function (tblName) {
-          return function (cb) {
+          return function(cb) {
              req.cnn.query("alter table " + tblName + " auto_increment = 1",
               cb);
           };
        }));
 
       // Callback to reinsert admin user
-      cbs.push(function (cb) {
+      cbs.push(function(cb) {
          req.cnn.query('INSERT INTO User (firstName, lastName, email,' +
           ' password, whenRegistered, role) VALUES ' +
           '("Joe", "Admin", "adm@11.com","password", NOW(), 1);', cb);
       });
 
       // Callback to clear sessions, release connection and return result
-      cbs.push(function (callback) {
+      cbs.push(function(callback) {
          for (var session in Session.sessions)
             delete Session.sessions[session];
          callback();
       });
 
-      async.series(cbs, function (err) {
+      async.series(cbs, function(err) {
          req.cnn.release();
          if (err)
             res.status(400).json(err);
@@ -96,12 +96,12 @@ app.delete('/DB', function (req, res) {
 });
 
 // Handler of last resort.  Print a stacktrace to console and send a 500 r
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
    res.status(404).end();
    if (res.req.cnn)
       res.req.cnn.release();
 });
 
-app.listen(port, function () {
+app.listen(port, function() {
    console.log('App Listening on port ' + port);
 });

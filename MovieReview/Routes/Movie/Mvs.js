@@ -5,7 +5,7 @@ var async = require('async');
 
 router.baseURL = '/Mvs';
 
-router.get('/', function (req, res) {
+router.get('/', function(req, res) {
    var owner = req.query.owner;
    var qry = 'select * from Movie';
    var params = null;
@@ -15,7 +15,7 @@ router.get('/', function (req, res) {
       params = owner;
    }
 
-   req.cnn.chkQry(qry, params, function (err, cnvs) {
+   req.cnn.chkQry(qry, params, function(err, cnvs) {
       if (!err) {
          res.json(cnvs)
       }
@@ -23,7 +23,7 @@ router.get('/', function (req, res) {
    });
 });
 
-router.post('/', function (req, res) {
+router.post('/', function(req, res) {
    var vld = req.validator;
    var body = req.body;
    var cnn = req.cnn;
@@ -40,30 +40,30 @@ router.post('/', function (req, res) {
               [body.title, body.director, parseInt(body.releaseYear)], cb);
           }
        },
-       function (existingCnv, fields, cb) {
+       function(existingCnv, fields, cb) {
           if (vld.check(!existingCnv.length, Tags.dupEntry, null, cb))
              cnn.chkQry("insert into Movie set ?", body, cb);
        },
-       function (insRes, fields, cb) {
+       function(insRes, fields, cb) {
           res.location(router.baseURL + '/' + insRes.insertId).end();
           cb();
        }],
-    function (err) {
+    function(err) {
        cnn.release();
     });
 });
 
-router.get('/:mvId', function (req, res) {
+router.get('/:mvId', function(req, res) {
    var vld = req.validator;
    var body = req.body;
    var cnn = req.cnn;
    var mvId = req.params.mvId;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
           cnn.chkQry('select * from Movie where id = ?', [mvId], cb);
        },
-       function (mvs, fields, cb) {
+       function(mvs, fields, cb) {
           if (vld.check(mvs.length, Tags.notFound, null, cb)) {
 
              res.json({
@@ -74,24 +74,24 @@ router.get('/:mvId', function (req, res) {
              cb();
           }
        }],
-    function (err) {
+    function(err) {
        if (!err)
           res.status(200).end();
        req.cnn.release();
     });
 });
 
-router.put('/:mvId', function (req, res) {
+router.put('/:mvId', function(req, res) {
    var vld = req.validator;
    var body = req.body;
    var cnn = req.cnn;
    var mvId = req.params.mvId;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
           cnn.chkQry('select * from Movie where id = ?', [mvId], cb);
        },
-       function (mvs, fields, cb) {
+       function(mvs, fields, cb) {
           if (vld.check(mvs.length, Tags.notFound, null, cb) &&
            vld.checkUsrOK(mvs[0].ownerId, cb)) {
              var query = 'select * from Movie where id <> ? && title = ? ' +
@@ -106,16 +106,16 @@ router.put('/:mvId', function (req, res) {
              cnn.chkQry(query, params, cb);
           }
        },
-       function (sameTtl, fields, cb) {
+       function(sameTtl, fields, cb) {
           if (vld.check(!sameTtl.length, Tags.dupEntry, null, cb))
              cnn.chkQry("update Movie set ? where id = ?",
               [body, mvId], cb);
        },
-       function (qRes, fields, cb) {
+       function(qRes, fields, cb) {
           res.status(200).end();
           cb();
        }],
-    function (err) {
+    function(err) {
        req.cnn.release();
     });
 });
@@ -126,65 +126,65 @@ router.delete('/:mvId', function (req, res) {
    var cnn = req.cnn;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
           cnn.chkQry('select * from Movie where id = ?', [mvId], cb);
        },
-       function (mvs, fields, cb) {
+       function(mvs, fields, cb) {
           if (vld.check(mvs.length, Tags.notFound, null, cb) &&
            vld.checkUsrOK(mvs[0].ownerId, cb))
              cnn.chkQry('delete from Movie where id = ?', [mvId], cb);
        }],
-    function (err) {
+    function(err) {
        if (!err)
           res.status(200).end();
        req.cnn.release();
     });
 });
 
-router.get('/:mvId/Rvws', function (req, res) {
+router.get('/:mvId/Rvws', function(req, res) {
    var vld = req.validator;
    var mvId = req.params.mvId;
    var cnn = req.cnn;
 
 
    async.waterfall([
-       function (cb) {  // Check for existence of conversation
+       function(cb) {  // Check for existence of conversation
           cnn.chkQry('select * from Movie where id = ?', [mvId], cb);
        },
-       function (movie, fields, cb) {
+       function(movie, fields, cb) {
           if (vld.check(movie.length, Tags.notFound, null, cb))
              cnn.chkQry('select id, username, score, content, postedOn' +
               ' from Review where mvId = ?', [mvId], cb);
        },
-       function (rvws, fields, cb) {
+       function(rvws, fields, cb) {
           rvws.forEach(function (review) {
              review.postedOn = new Date(review.postedOn).getTime();
           });
           res.json(rvws);
           cb();
        }],
-    function (err) {
+    function(err) {
        req.cnn.release();
     });
 });
 
-router.post('/:mvId/Rvws', function (req, res) {
+router.post('/:mvId/Rvws', function(req, res) {
    var vld = req.validator;
    var cnn = req.cnn;
    var mvId = req.params.mvId;
    var username = req.session.email;
 
    async.waterfall([
-       function (cb) {
+       function(cb) {
           cnn.chkQry('select * from Movie where id = ?', [mvId], cb);
        },
-       function (movie, fields, cb) {
+       function(movie, fields, cb) {
           if (vld.check(movie.length, Tags.notFound, null, cb)) {
              cnn.chkQry('select * from Review where username = ? && mvId = ?',
               [username, mvId], cb);
           }
        },
-       function (review, fields, cb) {
+       function(review, fields, cb) {
           if (vld.chain(!review.length, Tags.dupReview, null, cb) &&
            vld.check(req.body.hasOwnProperty("content"), Tags.missingField,
             ['content'], cb) &&
@@ -200,11 +200,11 @@ router.post('/:mvId/Rvws', function (req, res) {
                  content: req.body.content, score: req.body.score
               }, cb);
        },
-       function (insRes, fields, cb) {
+       function(insRes, fields, cb) {
           res.location('/Rvws/' + insRes.insertId).end();
           cb();
        }],
-    function (err) {
+    function(err) {
        req.cnn.release();
     });
 });

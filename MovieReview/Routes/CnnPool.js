@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
 // Constructor for DB connection pool
-var CnnPool = function () {
+var CnnPool = function() {
    var poolCfg = require('./connection.json');
 
    poolCfg.connectionLimit = CnnPool.PoolSize;
@@ -11,21 +11,21 @@ var CnnPool = function () {
 CnnPool.PoolSize = 1;
 
 // Conventional getConnection, drawing from the pool
-CnnPool.prototype.getConnection = function (cb) {
+CnnPool.prototype.getConnection = function(cb) {
    this.pool.getConnection(cb);
 };
 
 // Router function for use in auto-creating CnnPool for a request
-CnnPool.router = function (req, res, next) {
+CnnPool.router = function(req, res, next) {
    console.log("Getting connection");
-   CnnPool.singleton.getConnection(function (err, cnn) {
+   CnnPool.singleton.getConnection(function(err, cnn) {
       if (err)
          res.status(500).json('Failed to get connection' + err);
       else {
          console.log("Connection acquired");
-         cnn.chkQry = function (qry, prms, cb) {
+         cnn.chkQry = function(qry, prms, cb) {
             // Run real qry, checking for error
-            this.query(qry, prms, function (err, result, fields) {
+            this.query(qry, prms, function(err, result, fields) {
                if (err)
                   res.status(500).json('Failed query ' + qry);
                cb(err, result, fields);

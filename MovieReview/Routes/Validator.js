@@ -1,6 +1,6 @@
 // Create a validator that draws its session from |req|, and reports
 // errors on |res|
-var Validator = function (req, res) {
+var Validator = function(req, res) {
    this.errors = [];   // Array of error objects having tag and params
    this.session = req.session;
    this.res = res;
@@ -38,7 +38,7 @@ Validator.Tags = {
 // and it may be relied upon to close a response with an appropriate error
 // list and call an error handler (e.g. a waterfall default function),
 // leaving the caller to cover the "good" case only.
-Validator.prototype.check = function (test, tag, params, cb) {
+Validator.prototype.check = function(test, tag, params, cb) {
    if (!test)
       this.errors.push({tag: tag, params: params});
 
@@ -58,20 +58,20 @@ Validator.prototype.check = function (test, tag, params, cb) {
 
 // Somewhat like |check|, but designed to allow several chained checks
 // in a row, finalized by a check call.
-Validator.prototype.chain = function (test, tag, params) {
+Validator.prototype.chain = function(test, tag, params) {
    if (!test) {
       this.errors.push({tag: tag, params: params});
    }
    return this;
 };
 
-Validator.prototype.checkAdmin = function (cb) {
+Validator.prototype.checkAdmin = function(cb) {
    return this.check(this.session && this.session.isAdmin(),
     Validator.Tags.noPermission, null, cb);
 };
 
 // Validate that AU is the specified person or is an admin
-Validator.prototype.checkUsrOK = function (usrId, cb) {
+Validator.prototype.checkUsrOK = function(usrId, cb) {
 
    var val = this.check(this.session &&
     (this.session.isAdmin() || this.session.id == usrId),
@@ -80,10 +80,10 @@ Validator.prototype.checkUsrOK = function (usrId, cb) {
 };
 
 // Check presence of truthy property in |obj| for all fields in fieldList
-Validator.prototype.hasFields = function (obj, fieldList, cb) {
+Validator.prototype.hasFields = function(obj, fieldList, cb) {
    var self = this;
 
-   fieldList.forEach(function (name) {
+   fieldList.forEach(function(name) {
       self.chain(obj.hasOwnProperty(name) && obj[name] !== "",
        Validator.Tags.missingField, [name]);
    });
@@ -91,23 +91,23 @@ Validator.prototype.hasFields = function (obj, fieldList, cb) {
    return this.check(true, null, null, cb);
 };
 
-Validator.prototype.hasOnlyFields = function (obj, fieldList, cb) {
+Validator.prototype.hasOnlyFields = function(obj, fieldList, cb) {
    var badFields = [];
    var self = this;
 
-   Object.keys(obj).forEach(function (objKey) {
+   Object.keys(obj).forEach(function(objKey) {
       if (fieldList.indexOf(objKey) === -1)
          badFields.push(objKey);
    });
 
-   badFields.forEach(function (name) {
+   badFields.forEach(function(name) {
       self.chain(false, Validator.Tags.forbiddenField, [name])
    });
 
    return this.check(true, null, null, cb);
 };
 
-Validator.prototype.hasPassword = function (obj) {
+Validator.prototype.hasPassword = function(obj) {
 
 }
 

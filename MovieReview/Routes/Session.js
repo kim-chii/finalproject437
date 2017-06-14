@@ -20,7 +20,7 @@ var Session = function Session(user) {
    this.lastUsed = new Date().getTime();
 };
 
-Session.prototype.isAdmin = function () {
+Session.prototype.isAdmin = function() {
    return this.role == 1;
 };
 

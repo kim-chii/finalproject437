@@ -6,7 +6,7 @@ var router = Express.Router({caseSensitive: true});
 
 router.baseURL = '/Ssns';
 
-router.get('/', function (req, res) {
+router.get('/', function(req, res) {
    var body = [], ssn;
 
    if (req.validator.checkAdmin()) {
@@ -19,7 +19,7 @@ router.get('/', function (req, res) {
    req.cnn.release();
 });
 
-router.post('/', function (req, res) {
+router.post('/', function(req, res) {
    var cookie;
    var cnn = req.cnn;
 
@@ -34,7 +34,7 @@ router.post('/', function (req, res) {
     });
 });
 
-router.delete('/:cookie', function (req, res, next) {
+router.delete('/:cookie', function(req, res, next) {
    var cookie = req.cookies[ssnUtil.cookieName];
    var role = ssnUtil.sessions[cookie].role;
    if (req.validator.check(req.params.cookie === cookie || role === 1,
@@ -45,7 +45,7 @@ router.delete('/:cookie', function (req, res, next) {
    req.cnn.release();
 });
 
-router.get('/:cookie', function (req, res, next) {
+router.get('/:cookie', function(req, res, next) {
    var cookie = req.params.cookie;
    var vld = req.validator;
 
