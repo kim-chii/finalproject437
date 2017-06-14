@@ -9,6 +9,8 @@ router.get('/', function(req, res) {
    var isAdmin = req.session.isAdmin();
    var request = req.query.email;
 
+   console.log('GET: /Usrs');
+
    var handler = function(err, usrArr) {
       res.json(usrArr);
       req.cnn.release();
@@ -36,6 +38,8 @@ router.post('/', function(req, res) {
    var body = req.body;
    var admin = req.session && req.session.isAdmin();
    var cnn = req.cnn;
+
+   console.log('POST: /Usrs');
 
    if (admin && !body.password)
       body.password = "*";                       // Blocking password
@@ -72,6 +76,8 @@ router.post('/', function(req, res) {
 router.get('/:id', function(req, res) {
    var vld = req.validator;
 
+   console.log('GET: /Usrs/:id');
+
    if (vld.checkUsrOK(req.params.id)) {
       req.cnn.query('select email, firstName, lastName, role, termsAccepted'
        + ', id, whenRegistered from User where id = ?', [req.params.id],
@@ -91,6 +97,8 @@ router.put('/:id', function(req, res) {
    var vld = req.validator;
    var admin = req.session.isAdmin();
    var cnn = req.cnn;
+
+   console.log('PUT: /Usrs/:id');
 
    async.waterfall([
        function(cb) {
@@ -147,6 +155,8 @@ router.get('/Rvws/:usrId', function(req, res) {
    var query2 = 'select id, mvId, username, score, content, postedOn' +
     ' from Review where username = ?';
 
+   console.log('GET: /Usrs/Rvws/:usrid');
+
    async.waterfall([
       function(cb) {
          cnn.chkQry(query1, [req.params.usrId], cb);
@@ -170,6 +180,8 @@ router.delete('/:id', function (req, res) {
    var vld = req.validator;
    var cnn = req.cnn;
    var usrsId = req.params.id;
+
+   console.log('DELETE: /Usrs/:id');
 
    async.waterfall([
        function(cb) {
