@@ -8,6 +8,8 @@ router.baseURL = '/Rvws';
 router.get('/:revId', function(req, res) {
    var vld = req.validator;
 
+   console.log('GET: /Rvws/:revId');
+
    async.waterfall([
        function(cb) {
           req.cnn.chkQry('select id, username, score, content, postedOn' +
@@ -28,6 +30,8 @@ router.get('/:revId', function(req, res) {
 
 router.put('/:revId', function(req, res) {
    var vld = req.validator;
+
+   console.log('PUT: /Rvws/:revId');
 
    async.waterfall([
        function(cb) {
@@ -68,6 +72,8 @@ router.get('/:revId/Sentiment', function(req, res) {
    var vld = req.validator;
    var revId = req.params.revId;
 
+   console.log('GET: /Rvws/:revId/Sentiment');
+
    async.waterfall([
        function(cb) {
           req.cnn.chkQry('select * from Sentiment where revId = ?', [revId], cb)
@@ -87,6 +93,8 @@ router.post('/:revId/Sentiment', function(req, res) {
    var vld = req.validator;
    var revId = req.params.revId;
    var sentiment = req.body.sentiment;
+
+   console.log('POST: /Rvws/:revId/Sentiment');
 
    async.waterfall([
        function(cb) {
@@ -119,6 +127,8 @@ router.delete('/:revId/Sentiment/:sntId', function(req, res) {
    var vld = req.validator;
    var cnn = req.cnn;
    var sntId = req.params.sntId;
+
+   console.log('DELET: /Rvws/:revId/Sentiment/:sntId');
 
    async.waterfall([
        function(cb) {

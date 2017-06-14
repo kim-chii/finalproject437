@@ -9,6 +9,8 @@ router.baseURL = '/Ssns';
 router.get('/', function(req, res) {
    var body = [], ssn;
 
+   console.log('GET: /Ssns');
+
    if (req.validator.checkAdmin()) {
       for (var cookie in ssnUtil.sessions) {
          ssn = ssnUtil.sessions[cookie];
@@ -22,6 +24,8 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
    var cookie;
    var cnn = req.cnn;
+
+   console.log('POST: /Ssns');
 
    cnn.query('select * from User where email = ?', [req.body.email],
     function (err, result) {
@@ -37,6 +41,9 @@ router.post('/', function(req, res) {
 router.delete('/:cookie', function(req, res, next) {
    var cookie = req.cookies[ssnUtil.cookieName];
    var role = ssnUtil.sessions[cookie].role;
+
+   console.log('DELETE: /Ssns/:cookie');
+
    if (req.validator.check(req.params.cookie === cookie || role === 1,
      Tags.noPermission)) {
       ssnUtil.deleteSession(req.params.cookie);
@@ -48,6 +55,8 @@ router.delete('/:cookie', function(req, res, next) {
 router.get('/:cookie', function(req, res, next) {
    var cookie = req.params.cookie;
    var vld = req.validator;
+
+   console.log('GET /Ssns/:cookie');
 
    if (vld.check(ssnUtil.sessions[cookie], Tags.notFound) &&
     vld.checkUsrOK(ssnUtil.sessions[cookie].id)) {

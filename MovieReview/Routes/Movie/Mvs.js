@@ -10,6 +10,8 @@ router.get('/', function(req, res) {
    var qry = 'select * from Movie';
    var params = null;
 
+   console.log('GET: /Mvs');
+
    if (owner) {
       qry += ' where ownerId = ?';
       params = owner;
@@ -29,6 +31,8 @@ router.post('/', function(req, res) {
    var cnn = req.cnn;
 
    body["ownerId"] = req.session.id;
+
+   console.log('POST: /Mvs');
 
    async.waterfall([
        function (cb) {
@@ -59,6 +63,8 @@ router.get('/:mvId', function(req, res) {
    var cnn = req.cnn;
    var mvId = req.params.mvId;
 
+   console.log('GET: /Mvs/:mvId');
+
    async.waterfall([
        function(cb) {
           cnn.chkQry('select * from Movie where id = ?', [mvId], cb);
@@ -86,6 +92,8 @@ router.put('/:mvId', function(req, res) {
    var body = req.body;
    var cnn = req.cnn;
    var mvId = req.params.mvId;
+
+   console.log('PUT: /Mvs/:mvId');
 
    async.waterfall([
        function(cb) {
@@ -125,6 +133,8 @@ router.delete('/:mvId', function (req, res) {
    var mvId = req.params.mvId;
    var cnn = req.cnn;
 
+   console.log('DELETE: /Mvs/:mvId');
+
    async.waterfall([
        function(cb) {
           cnn.chkQry('select * from Movie where id = ?', [mvId], cb);
@@ -146,6 +156,7 @@ router.get('/:mvId/Rvws', function(req, res) {
    var mvId = req.params.mvId;
    var cnn = req.cnn;
 
+   console.log('GET: /Mvs/:mvId/Rvws');
 
    async.waterfall([
        function(cb) {  // Check for existence of conversation
@@ -173,6 +184,8 @@ router.post('/:mvId/Rvws', function(req, res) {
    var cnn = req.cnn;
    var mvId = req.params.mvId;
    var username = req.session.email;
+
+   console.log('POST: /Mvs/:mvId/Rvws');
 
    async.waterfall([
        function(cb) {
